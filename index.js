@@ -1,17 +1,19 @@
 const { Octokit } = require("@octokit/core");
 const urljoin = require('url-join');
 const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
 
 const main = async () => {
+
+    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
     });
-    let blogUrl = 'https://weirenxue.github.io';
+    let blogUrl = process.env.BLOG_URL;
     let result = await admin.firestore().collection('articles').orderBy('count', 'desc').get();
     let data = [];
-    data.push(`Blog：[薛惟仁筆記本](${blogUrl})`);
+    let titlePrefix = process.env.TITLE_PREFIX;
+    data.push(`${titlePrefix}(${blogUrl})`);
 
     result.forEach((doc) => {
         if(doc.data().pathname === undefined)
@@ -22,10 +24,10 @@ const main = async () => {
     })
 
     const octokit = new Octokit({
-        auth: '{PAT}',
+        auth: process.env.PAT,
     });
 
-    let response = await octokit.request('PATCH /gists/{gist_id}', {
+    let response = await octokit.request(`PATCH /gists/${process.env.GIST_ID}`, {
         files: {
             'ranking.md': {
                 content: data.join('  \n')
@@ -33,7 +35,6 @@ const main = async () => {
         },
         public: true
     })
-    console.log(response.data);
 }
 
 main();

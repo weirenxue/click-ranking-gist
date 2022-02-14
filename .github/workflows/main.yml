@@ -1,0 +1,29 @@
+name: Continuous Update Gist
+
+on:
+  push:
+    branches:
+      - feature/cicd
+
+jobs:
+  build:
+    name: Update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: npm
+      - name: Install packages
+        run: npm install
+      - name: Update Gist
+        run: node .
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          BLOG_URL: https://weirenxue.github.io
+          TITLE_PREFIX: Blog：薛惟仁筆記本
+          PAT: ${{ secrets.PAT }}
+          GIST_ID: 1582d41aa4cf561d9a51fc1606f388bc
