@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - feature/cicd
+  schedule:
+    - cron: "0 */8 * * *"
 
 jobs:
   build:
-    name: Update
+    name: Update Gist
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
