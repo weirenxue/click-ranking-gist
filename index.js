@@ -13,7 +13,7 @@ const main = async () => {
     let result = await admin.firestore().collection('articles').orderBy('count', 'desc').get();
     let data = [];
     let titlePrefix = process.env.TITLE_PREFIX;
-    data.push(`[${titlePrefix}](${blogUrl})`);
+    data.push(`Blog：[${titlePrefix}](${blogUrl})`);
 
     result.forEach((doc) => {
         if(doc.data().pathname === undefined)
