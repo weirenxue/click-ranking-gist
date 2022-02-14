@@ -26,6 +26,6 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
           BLOG_URL: https://weirenxue.github.io
-          TITLE_PREFIX: Blog：薛惟仁筆記本
+          TITLE_PREFIX: 薛惟仁筆記本
           PAT: ${{ secrets.PAT }}
           GIST_ID: 1582d41aa4cf561d9a51fc1606f388bc
